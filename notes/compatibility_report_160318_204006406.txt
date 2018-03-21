@@ -1,0 +1,27 @@
+Converting GML script: ${project_dir}\scripts\add_debug\add_debug.gml
+Converted description /// @description  add_debug(str,?col);/// @function  add_debug
+/// @param str
+/// @param ?col
+
+Converting GML script: ${project_dir}\scripts\server_queue_msg\server_queue_msg.gml
+Converted description /// @description  server_queue_msg(user,buff);/// @function  server_queue_msg
+/// @param user
+/// @param buff
+
+Converting GML script: ${project_dir}\scripts\client_handle_msg\client_handle_msg.gml
+Converted description /// @description  client_handle_msg();/// @function  client_handle_msg
+
+Converting GML script: ${project_dir}\objects\obj_server\Other_68.gml
+Error: variable 'ds_map_set' has same name as a built-in (function, constant or variable), it must be renamed to function correctly
+
+Converting GML script: ${project_dir}\objects\obj_server\Draw_64.gml
+Converted builtin - line 21: view_wview[0] -> __view_get( e__VW.WView, 0 )
+
+Windows NSIS Installer Script has been set to default due to changes in GameMaker Studio 2
+Game speed set to 60
+Added compatibility script 'instance/instance_create.gml'
+Added compatibility script 'object/object_get_depth.gml'
+Added compatibility script 'view/__view_get.gml'
+Added compatibility script 'view/__init_view.gml'
+Added compatibility script '__init_global.gml'
+Added compatibility script '__global_object_depths.gml'
