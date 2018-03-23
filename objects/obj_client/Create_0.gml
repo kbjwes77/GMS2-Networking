@@ -1,3 +1,5 @@
+global.dt = round(1000000/60);
+
 msg_enum();
 
 debug = false;

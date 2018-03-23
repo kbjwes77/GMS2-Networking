@@ -1,6 +1,6 @@
 var time = get_timer();
 
-if (pos_time < time-100000)
+if (pos_time < time-50000)
 	{
 	pos_time = time;
 	
@@ -11,11 +11,11 @@ if (pos_time < time-100000)
 			var sendbuff = buffer_create(16,buffer_fixed,1);
 			buffer_seek(sendbuff,buffer_seek_start,0);
 			buffer_write(sendbuff,buffer_u8,s_msg.user_pos);
-			buffer_write(sendbuff,buffer_u8,cur_user);
+			buffer_write(sendbuff,buffer_u8,cur_user-1);
 			
 			for(var j=0; j<max_user; j++;)
 				{
-				if (user_connected[j])
+				if (user_connected[j]) and (j != i)
 					{
 					buffer_write(sendbuff,buffer_u8,j);
 					

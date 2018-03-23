@@ -4,17 +4,17 @@ yprevious = y;
 x = herm(px[|1],px[|2],mx1,mx2,t);
 y = herm(py[|1],py[|2],my1,my2,t);
 
-t += 0.145;
+t += 0.33;
 if (t > 1)
 	{
 	t -= 1;
 	
-	if (points > 4)
+	if (points > 5)
 		points--;
 	else
 		{
-		var temp_x = px[|3];
-		var temp_y = py[|3];
+		var temp_x = px[|4];
+		var temp_y = py[|4];
 		ds_list_add(px,temp_x);
 		ds_list_add(py,temp_y);
 		}

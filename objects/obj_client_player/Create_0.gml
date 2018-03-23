@@ -1,7 +1,7 @@
 image_speed = 0;
 image_index = 0;
 
-points = 4;
+points = 5;
 px = ds_list_create();
 py = ds_list_create();
 for(var i=0; i<points; i++;)

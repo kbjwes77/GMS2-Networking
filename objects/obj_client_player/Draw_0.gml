@@ -1,3 +1,3 @@
 draw_self();
 
-draw_text(x,y+12,"t: "+string(t));
+draw_text(x,y+12,"t: "+string(t)+"\npoints: "+string(points));

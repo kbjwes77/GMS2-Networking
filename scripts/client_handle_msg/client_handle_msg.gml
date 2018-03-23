@@ -28,7 +28,10 @@ switch(msg_id)
 			var temp_id = buffer_read(buff,buffer_u8);
 			user_connected[temp_id] = true;
 			
-			var inst = instance_create_depth(0,0,0,obj_client_player);
+			if (temp_id == client_id)
+				var inst = instance_create_depth(0,0,0,obj_client_player_slave);
+			else
+				var inst = instance_create_depth(0,0,0,obj_client_player);
 			ds_map_set(user_info[temp_id],"pInst",inst);
 			}
 		
@@ -112,6 +115,40 @@ switch(msg_id)
 			}
 		
 		var seek = buffer_tell(buff);
+		break;
+	
+	case s_msg.user_pos_fix: // user position fix
+		
+		var temp_pos = buffer_read(buff,buffer_u8);
+		var temp_x = buffer_read(buff,buffer_s16);
+		var temp_y = buffer_read(buff,buffer_s16);
+		var seek = buffer_tell(buff);
+		
+		var sendbuff = buffer_create(16,buffer_fixed,1);
+		buffer_seek(sendbuff,buffer_seek_start,0);
+		buffer_write(sendbuff,buffer_u8,c_msg.user_pos_fix);
+		client_queue_msg(sendbuff);
+		
+		var inst = ds_map_find_value(user_info[client_id],"pInst");
+		if (instance_exists(inst))
+			{
+			var xadd = temp_x - obj_player_controller.xsent[temp_pos];
+			var yadd = temp_y - obj_player_controller.ysent[temp_pos];
+			inst.x += xadd;
+			inst.y += yadd;
+			
+			with(obj_player_controller)
+				{
+				for(var i=0; i<sendnum; i++;)
+					{
+					if (tsent[i] >= tsent[temp_pos])
+						{
+						xsent[i] += xadd;
+						ysent[i] += yadd;
+						}
+					}
+				}
+			}
 		break;
 	
     case s_msg.ping: // ping request
