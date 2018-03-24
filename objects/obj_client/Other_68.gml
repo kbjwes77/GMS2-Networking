@@ -11,14 +11,12 @@ if (type == network_type_data)
     
 	if (size > 0)
 		{
-	    buffer_seek(buff,buffer_seek_start,0);
-	    var msgs = buffer_read(buff,buffer_u8);
-		// add_debug(string(msgs)+" Messages Received");
-		
-	    repeat(msgs)
-	        client_handle_msg();
-    
-	    netgraph[netgraph_pos+0]++;
-	    netgraph[netgraph_pos+1] += size;
+	    // incoming message handling
+		var temp_time = get_timer() + latency_in;
+		var temp_buff = buffer_create(size,buffer_fixed,1);
+		buffer_copy(buff,0,size,temp_buff,0);
+			
+		ds_list_add(msg_in_list,temp_time,temp_buff,size);
+		msg_in++;
 		}
     }

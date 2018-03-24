@@ -3,12 +3,11 @@ global.dt = round(1000000/60);
 
 msg_enum();
 
+// debug
 debug = false;
 debug_list = ds_list_create();
 debug_alpha = 0;
 debug_y = 0;
-
-port = 25565;
 
 // user data
 cur_user = 0;
@@ -38,13 +37,20 @@ for(var i=0; i<max_user; i++;)
     user_connected[i] = false;
     user_info[i] = ds_map_create();
 	ping_time[i] = 0;
-    
-    queue_buff_size[i] = ds_queue_create();
-    queue_buff_id[i] = ds_queue_create();
-    queue_buff[i] = 0;
+	pos_time[i] = 0;
+	
+	// lag simulation (outgoing)
+	latency_out[i] = 0;
+	msg_out_list[i] = ds_list_create(); // time/buff/size
+	msg_out[i] = 0;
+	
+	// lag simulation (incoming)
+	latency_in[i] = 0;
+	msg_in_list[i] = ds_list_create(); // time/buff/size
+	msg_in[i] = 0;
     }
 
-pos_time = 0;
+port = 25565;
 
 // attempt to open listen socket
 add_debug("Attempting to open listen socket on port ["+string(port)+"]");
@@ -55,6 +61,7 @@ else
     add_debug("Successfully opened listen socket on port ["+string(port)+"]");
 
 // netgraph
+netgraph_time = 0;
 netgraph_show = false;
 netgraph_alpha = 0;
 netgraph_y = 0;
@@ -69,8 +76,17 @@ netgraph_col[2] = $29BD84; netgraph_str[2] = "Outgoing Packets";
 netgraph_col[3] = $FFAD4A; netgraph_str[3] = "Outgoing Bytes";
 
 for(var i=(600*4)-1; i>=0; i--;)
-    netgraph[i] = 0;
-// msg_in, byte_in, msg_out, byte_out
+    netgraph[i] = 0; // msg_in, byte_in, msg_out, byte_out
 
-global.gen_seed = ((current_second + current_minute) xor (current_hour)) * current_year;
+// generate random maps
+randomize();
+
+var seedlist = ds_list_create();
+for(var i=0; i<16; i++;)
+	ds_list_add(seedlist,i);
+ds_list_shuffle(seedlist);
+
+global.gen_seed = seedlist[|irandom(15)];
+ds_list_destroy(seedlist);
+
 instance_create_depth(0,0,0,obj_gen);

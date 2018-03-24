@@ -2,7 +2,5 @@
 /// @function  client_queue_msg
 /// @param buff
 
-var size = buffer_tell(argument[0]);
-ds_queue_enqueue(queue_buff_size,size);
-ds_queue_enqueue(queue_buff_id,argument[0]);
-queue_buff++;
+ds_list_add(msg_out_list,get_timer()+latency_out,argument[0],buffer_tell(argument[0]));
+msg_out++;

@@ -7,11 +7,6 @@ debug_list = ds_list_create();
 debug_alpha = 0;
 debug_y = 0;
 
-server_ip = "127.0.0.1";
-server_port = 25565;
-
-client_id = -1;
-
 pos_time = 0;
 
 // user data
@@ -33,6 +28,17 @@ queue_buff_size = ds_queue_create();
 queue_buff_id = ds_queue_create();
 queue_buff = 0;
 
+latency_in = 250000; // lag simulation (incoming)
+msg_in_list = ds_list_create(); // time/size/buff
+msg_in = 0;
+
+latency_out = 0; // lag simulation (outgoing)
+msg_out_list = ds_list_create(); // time/size/buff
+msg_out = 0;
+
+server_ip = "127.0.0.1";
+server_port = 25565;
+
 // attempt to connect to server
 add_debug("Attemping to connect to server ["+string(server_ip)+":"+string(server_port)+"]");
 connect = network_create_socket(network_socket_tcp);
@@ -40,7 +46,10 @@ status = network_connect_raw(connect,server_ip,server_port);
 if (status < 0)
     add_debug("Failed to connect to server ["+string(server_ip)+":"+string(server_port)+"]",c_red);
 
+client_id = -1;
+
 // netgraph
+netgraph_time = 0;
 netgraph_show = false;
 netgraph_alpha = 0;
 netgraph_y = 0;

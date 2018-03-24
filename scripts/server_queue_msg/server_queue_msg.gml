@@ -3,7 +3,5 @@
 /// @param user
 /// @param buff
 
-var size = buffer_tell(argument[1]);
-ds_queue_enqueue(queue_buff_size[argument[0]],size);
-ds_queue_enqueue(queue_buff_id[argument[0]],argument[1]);
-queue_buff[argument[0]]++;
+ds_list_add(msg_out_list[argument[0]],get_timer()+latency_out[argument[0]],argument[1],buffer_tell(argument[1]));
+msg_out[argument[0]]++;

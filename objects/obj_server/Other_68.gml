@@ -11,17 +11,14 @@ if (type == network_type_data)
     
 	if (size > 0)
 		{
-	    user_id = ds_map_find_value(user_sock_to_id,sock);
-    
-	    buffer_seek(buff,buffer_seek_start,0);
-	    var msgs = buffer_read(buff,buffer_u8);
-		// add_debug(string(msgs)+" Messages Received");
-		
-	    repeat(msgs)
-	        server_handle_msg();
-		
-	    netgraph[netgraph_pos+0]++;
-	    netgraph[netgraph_pos+1] += size;
+		// incoming message handling
+		var temp_user = ds_map_find_value(user_sock_to_id,sock);
+		var temp_time = get_timer() + latency_in[temp_user];
+		var temp_buff = buffer_create(size,buffer_fixed,1);
+		buffer_copy(buff,0,size,temp_buff,0);
+			
+		ds_list_add(msg_in_list[temp_user],temp_time,temp_buff,size);
+		msg_in[temp_user]++;
 		}
     }
 // user attempting to connect
@@ -84,6 +81,9 @@ else if (type == network_type_connect)
 		buffer_write(sendbuff,buffer_u16,obj_gen.spawn_y);
 		
 		server_queue_msg(temp_id,sendbuff);
+		
+		pos_time[temp_id] = get_timer()+50000;
+		ping_time[temp_id] = get_timer()+5000000;
         }
     else
         {

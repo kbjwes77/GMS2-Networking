@@ -134,6 +134,7 @@ switch(msg_id)
 			{
 			var xadd = temp_x - obj_player_controller.xsent[temp_pos];
 			var yadd = temp_y - obj_player_controller.ysent[temp_pos];
+			add_debug("Player position desync, error ["+string(xadd)+","+string(yadd)+"]",c_orange);
 			inst.x += xadd;
 			inst.y += yadd;
 			

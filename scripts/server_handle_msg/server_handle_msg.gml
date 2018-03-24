@@ -38,13 +38,18 @@ switch(msg_id)
 		if (inst.fix) and ((temp_x != floor(inst.x)) or (temp_y != floor(inst.y)))
 			{
 			inst.fix = false;
+			inst.alarm[0] = game_get_speed(gamespeed_fps);
+			
+			var temp_xfix = floor(inst.x);
+			var temp_yfix = floor(inst.y);
+			add_debug("User position desync: rec["+string(temp_x)+","+string(temp_y)+"] act["+string(temp_xfix)+","+string(temp_yfix)+"]",c_orange);
 			
 			var sendbuff = buffer_create(16,buffer_fixed,1);
 			buffer_seek(sendbuff,buffer_seek_start,0);
 			buffer_write(sendbuff,buffer_u8,s_msg.user_pos_fix);
 			buffer_write(sendbuff,buffer_u8,temp_pos);
-			buffer_write(sendbuff,buffer_s16,floor(inst.x));
-			buffer_write(sendbuff,buffer_s16,floor(inst.y));
+			buffer_write(sendbuff,buffer_s16,temp_xfix);
+			buffer_write(sendbuff,buffer_s16,temp_yfix);
 			server_queue_msg(user_id,sendbuff);
 			}
 		break;

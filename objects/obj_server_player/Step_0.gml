@@ -1,37 +1,37 @@
 var dt = delta_time / global.dt;
 
-var key_left = keys & 1;
-var key_right = keys & 2;
-var key_up = keys & 4;
-var key_down = keys & 8;
+var key_left = (keys & 1);
+var key_right = (keys & 2) >> 1;
+var key_up = (keys & 4) >> 2;
+var key_down = (keys & 8) >> 3;
 
-if (key_right - key_left == 0)
-	{
-	if (xspeed > 0)
-		xspeed = max(0,xspeed-(0.5 * dt));
-	else if (xspeed < 0)
-		xspeed = min(0,xspeed+(0.5 * dt));
-	}
-else
+if (key_right) xor (key_left)
 	{
 	if (key_left)
 		xspeed = max(-3,xspeed - (1 * dt));
 	if (key_right)
 		xspeed = min(+3,xspeed + (1 * dt));
 	}
-if (key_down - key_up == 0)
-	{
-	if (yspeed > 0)
-		yspeed = max(0,xspeed-(0.5 * dt));
-	else if (yspeed < 0)
-		yspeed = min(0,xspeed+(0.5 * dt));
-	}
 else
+	{
+	if (xspeed > 0)
+		xspeed = max(0,xspeed-(0.5 * dt));
+	else if (xspeed < 0)
+		xspeed = min(0,xspeed+(0.5 * dt));
+	}
+if (key_down) xor (key_up)
 	{
 	if (key_up)
 		yspeed = max(-3,yspeed - (1 * dt));
 	if (key_down)
 		yspeed = min(+3,yspeed + (1 * dt));
+	}
+else
+	{
+	if (yspeed > 0)
+		yspeed = max(0,yspeed-(0.5 * dt));
+	else if (yspeed < 0)
+		yspeed = min(0,yspeed+(0.5 * dt));
 	}
 
 if (gen)
